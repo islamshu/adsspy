@@ -42,17 +42,6 @@ return [
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
         ],
-        'mongodb' => [
-            'driver' => 'mongodb',
-            'host' => env('DB_HOST', 'localhost'),
-            'port' => env('DB_PORT', 27017),
-            'database' => env('DB_DATABASE'),
-            'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
-            'options' => [
-                 'database' =>  env('DB_DATABASE') // sets the authentication database required by mongo 3
-             ]
-         ],
 
         'mysql' => [
             'driver' => 'mysql',
@@ -107,13 +96,7 @@ return [
             'port' => env('DB_PORT', 27017),
             'database' => env('DB_DATABASE'),
             'username' => env('DB_USERNAME'),
-            'password' => env('DB_PASSWORD'),
-            'options' => [
-                // here you can pass more settings to the Mongo Driver Manager
-                // see https://www.php.net/manual/en/mongodb-driver-manager.construct.php under "Uri Options" for a list of complete parameters that you can use
-        
-                'database' => env('DB_AUTHENTICATION_DATABASE', 'admin'), // required with Mongo 3+
-            ],
+            'DB_URI'=>'mongodb://sondosblog:SUMsung6056@sondosblog.com:27017/?authSource=admin',
         ],
 
     ],
