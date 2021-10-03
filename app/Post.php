@@ -19,10 +19,14 @@ class Post extends Model
      */
     public function resorese()
     {
-        return $this->hasMany(Resoure::class, 'post_id');
+        return $this->hasOne(Resoure::class, 'post_id');
+    }
+    public function related()
+    {
+        return $this->hasMany(Postrelated::class, 'post_id');
     }
     public function data_post(){
-        $image =  URL::to('/').'/uploads/'.$this->resorese->first()->image;
+        $image =  URL::to('/').'/uploads/'.$this->resorese->image;
 
         if($this->ad_format == 'image'){
             $post = '  <div class="img-view">
@@ -31,7 +35,7 @@ class Post extends Model
         return $post;
         }elseif($this->ad_format == 'video'){
 
-            $vidoo =  URL::to('/').'/uploads/'.$this->resorese->first()->video;
+            $vidoo =  URL::to('/').'/uploads/'.$this->resorese->video;
 $post = ' <div class="video">
 <video muted="muted" controls loop   poster="'.$image.'" >
     <source
@@ -64,6 +68,7 @@ return $post;
             foreach($related as $re){
                 array_push($array,$re->like);
             }
+            
             return $array;
         }else{
        return 'ttt';
@@ -112,7 +117,7 @@ return $post;
 
     }
     public function dates(){
-        $result = CarbonPeriod::create($this->post_create, '1 month', $this->last_seen);
+        $result = CarbonPeriod::create($this->post_create, '1 year', $this->last_seen);
         $array =[];
         foreach ($result as $dt) {
            $post = "'".$this->post_create ."'";
@@ -124,7 +129,6 @@ return $post;
 
         }
       $array=  str_replace('"', '', json_encode($array));
-    // dd($array);
       return $array;
 
 

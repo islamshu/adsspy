@@ -47,7 +47,7 @@ class BlogController extends Controller
     $request_all['slug']= str_replace(' ','_',$request->title);
 
     $blog->update($request_all);
-    return redirect()->back()->with(['success'=>'تم التعديل بنجاح']);
+    return redirect()->route('blog.index')->with(['success'=>'تم التعديل بنجاح']);
 
     }
     public function destroy($id){

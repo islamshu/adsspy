@@ -7,7 +7,7 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard.index') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="">Home</a></li>
                         <li class="breadcrumb-item active" >Posts</li>
                     </ol>
                 </div>
@@ -26,6 +26,8 @@
                     
 
                     <div class="table-responsive">
+                        @include('dashboard.parts.alert.success')
+                        @include('dashboard.parts.alert.error')
                         <table   class="table table-bordered mb-0 table-centered">
                           
                             <thead>
@@ -33,30 +35,44 @@
                             <tr >
                                 <th>#</th>
                                 <th>logo</th>
-                                <th>page name</th>
-                                <th>ads link</th>
-                                <th>like</th>
-                                <th>comment</th>
+                                <th style="width: 300px">title</th>
+                                <th>image/video</th>
+                                <th>Special</th>
+
                                 <th>action</th>
 
                             </tr>
                             </thead >
-                            <tbody id="data-wrapper" >
+                            <tbody >
+                                @foreach ($posts  as $key =>$item)
+                                    
+                                
+                                <tr>
+                                    <td>{{$key +1}}</td>
+                                    <td><img src="{{ asset('uploads/'.@$item->resorese->image) }}" width="100" height="80" alt=""></td>
+                                    <td>{{@$item->title}}</td>
+                                    <td>{{@$item->ad_format}}</td>
+
+                                <td><input type="checkbox" data-id="{{ @$item->id }}" name="special" class="js-switch" {{ @$item->special == '1' ? 'checked' : '' }}>
+                                </td>
+                                <td>      
+                                    {{-- <a class="btn btn-primary" href="{{ route('posts.edit',@$item->_id) }}">Edit</a> --}}
+
+                                    <a class="btn btn-primary" href="{{ route('posts.edit',@$item->_id) }}">Edit</a>
+                                    {{-- @endcan --}}
+                                    {{-- @can('role-delete') --}}
+                                    {!! Form::open(['method' => 'DELETE','route' => ['posts.destroy', @$item->id],'style'=>'display:inline']) !!}
+                                    {!! Form::submit('Delete', ['class' => 'btn btn-danger']) !!}
+                                    {!! Form::close() !!}
+                                   
+                                </td>
+                            </tr>
+                            @endforeach
                              
                             </tbody>
-                            <div class="auto-load text-center">
-                                <svg version="1.1" id="L9" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                                    x="0px" y="0px" height="60" viewBox="0 0 100 100" enable-background="new 0 0 0 0" xml:space="preserve">
-                                    <path fill="#000"
-                                        d="M73,50c0-12.7-10.3-23-23-23S27,37.3,27,50 M30.9,50c0-10.5,8.5-19.1,19.1-19.1S69.1,39.5,69.1,50">
-                                        <animateTransform attributeName="transform" attributeType="XML" type="rotate" dur="1s"
-                                            from="0 50 50" to="360 50 50" repeatCount="indefinite" />
-                                    </path>
-                                </svg>
-                            </div>
+                        
 
                         </table>
-                        {{-- {{ $posts->links() }} --}}
 
                     </div><!--end /tableresponsive-->
                 </div><!--end card-body-->
@@ -67,39 +83,25 @@
     
 @endsection
 @section('script')
-    <script>
-        var ENDPOINT = "{{ url('/dashboard') }}";
-        var page = 1;
-        infinteLoadMore(page);
+    
 
-        $(window).scroll(function () {
-            if ($(window).scrollTop() +1 >= $(document).height() - $(window).height()) {
-                page++;
-                infinteLoadMore(page);
+
+
+<script>
+    $(document).ready(function(){
+    $('.js-switch').change(function () {
+        let special = $(this).prop('checked') === true ? 1 : 0;
+        let post_id = $(this).data('id');
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '{{ route('post.update.special') }}',
+            data: {'special': special, 'post_id': post_id},
+            success: function (data) {
+                console.log(data.message);
             }
         });
-
-        function infinteLoadMore(page) {
-            $.ajax({
-                    url: ENDPOINT + "/posts?page=" + page,
-                    datatype: "html",
-                    type: "get",
-                    beforeSend: function () {
-                        $('.auto-load').show();
-                    }
-                })
-                .done(function (response) {
-                    if (response.length == 0) {
-                        $('.auto-load').html("We don't have more data to display :(");
-                        return;
-                    }
-                    $('.auto-load').hide();
-                    $("#data-wrapper").append(response);
-                })
-                .fail(function (jqXHR, ajaxOptions, thrownError) {
-                    console.log('Server error occured');
-                });
-        }
-
-    </script>
+    });
+});
+</script>
 @endsection

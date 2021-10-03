@@ -10,6 +10,7 @@ class GeneralController extends Controller
     public function index(){
         return view('dashboard.general.index')->with('general',General::first());
     }
+   
     public function store(Request $request){
     $general = General::first();
         // $request->validate([

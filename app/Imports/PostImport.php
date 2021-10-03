@@ -8,24 +8,33 @@ use Illuminate\Support\Collection;
 use Storage;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Illuminate\Support\Str;
+use DB;
 
 class PostImport implements ToCollection { 
       public function collection(Collection $rows) { 
+          dd($rows);
+    // $posts = DB::table('resoures')->truncate();
     
+    // // $posts = Postrelated::get();
        foreach($rows as $key=> $row){
+ 
         if($key == 0){
                continue;     
            }
-           if($row[7]){
-            $test=  Str::afterLast($row[7], '/');
-            $link1 =  Str::replaceFirst($test,'20'.$test,$row[7]);
-            $row7 = str_replace( '/', '-', $link1);
-           }
-           if($row[8]){
-            $test1=  Str::afterLast($row[8], '/');
-            $link2 =  Str::replaceFirst($test1,'20'.$test,$row[8]);
-            $row8 = str_replace( '/', '-', $link2);
-           }
+            
+             if($row[0] == null || $row[1] == null ){
+            continue;     
+        }
+        
+        
+      if($row[7] != null){
+          $row[7] = str_replace('/21','-2021',$row[7]);
+          $row[7] = str_replace('/','-',$row[7]);
+      }
+      if($row[8] != null){
+        $row[8] = str_replace('/21','-2021',$row[8]);
+        $row[8] = str_replace('/','-',$row[8]);
+    }
           
            $newpost = Post::where('post_id',$row[1])->orderBy( 'desc')->first();
 
@@ -41,8 +50,8 @@ class PostImport implements ToCollection {
                $related->share=(int)$row[18];
                $related->comment=(int)$row[19];
                $related->like=(int)$row[20];
-               $related->last_seen=$row8;
-               $newpost->last_seen=$row8;
+               $related->last_seen=$row[8];
+               $newpost->last_seen=$row[8];
                
                
                $related->save();
@@ -50,32 +59,33 @@ class PostImport implements ToCollection {
                continue;
                }
            }
-           
         
-          
-        //    if($row[4] != null){
-        //     try{
+        
+        
+        
+        
+        
+        
+        if($row[4]){
+            try{
  
         
-        //         $cover = file_get_contents( $row[4] );
+                $cover = file_get_contents( $row[4] );
             
-        //         $name_cover = substr($cover, strrpos($cover, '/upload/') + 1);
-        //         // dd($name_cover);
+                $name_cover = substr($cover, strrpos($cover, '/') + 1);
               
-        //     $new = '/uploads/'.rand(0,1000000000).'.mp4';
-            
-        //     Storage::put($new, $cover);
-            
-        //     }catch (\Exception $e) {
-        //         return 'its null';
-        //     } 
-        // }else{
-        //     return 'its null';
+            $video = '/'.rand(0,1000000000).'.mp4';
+          
+            Storage::put($video, $cover);
 
-        // }
+            }catch (\Exception $e) {
+                $video = null;
+            } 
+        }
+     
   
-       
-        if($row[5] != null){
+        if($row[5]){
+        
             try{
  
         
@@ -85,16 +95,15 @@ class PostImport implements ToCollection {
                 // dd($name_cover);
               
             $image = '/uploads/'.rand(0,1000000000).'.jpg';
-            
+          
             Storage::put($image, $cover);
-            
+
             }catch (\Exception $e) {
-                continue;
+             continue;
             } 
-        }else{
-            continue;
         }
-        if($row[22]!= null){
+      
+        if($row[22]){
             try{
  
         
@@ -107,37 +116,25 @@ class PostImport implements ToCollection {
             Storage::put($fb_page_logo, $cover);
             
             }catch (\Exception $e) {
-             $fb_page_logo = 'its null';
-            }    
-        }else{
-            $fb_page_logo = 'its null';
-     
-        }
-        if($row[4]!= null){
-            try{
- 
-        
-                $cover = file_get_contents($row[4] );
-            
-                $name_cover = substr($cover, strrpos($cover, '/upload/cover/') + 1);
-              
-            $vidoe = rand(0,1000000000).'.jpg';
-            
-            Storage::put($vidoe, $cover);
-            
-            }catch (\Exception $e) {
-             $vidoe = 'its null';
+             continue;
             }    
         }
-        
+
+
         $post = new Post();
+      
         $post->page_id=$row[0];
         $post->post_id =$row[1];
         $post->ad_format    = $row[2]; 
         $post->landanig_page =$row[3];
         $post->post_link=$row[6];
-        $post->post_create=$row7;
-        $post->last_seen=$row8;
+       
+        
+             $post->post_create=$row[7]  ?? '2020-10-10';
+             $test1=  Str::afterLast($row[8], '/');
+            $link2 =  Str::replaceFirst($test1,'20'.$test1,$row[8]);
+            $row8 = str_replace( '/', '-', $link2);
+        $post->last_seen=$row[8];
         $post->interested=$row[9];
         $post->gender=$row[10];
         $post->age=$row[11];
@@ -178,133 +175,18 @@ class PostImport implements ToCollection {
 
         $res = new Resoure();
         $res->post_id=$post->id;
-        $res->video=$vidoe; 
-        $res-> image=$image;
+        $res->video=$video;
+        $res-> image= $image;
         $res-> page_logo=$fb_page_logo;
         $res->save();
-        
-          
+        $post_r = new Postrelated();
+        $post_r->post_id=$post->id;
+        $post_r->share = (int)$row[18];
+        $post_r->like = (int)$row[20];
+        $post_r->comment = (int)$row[19];
+        $post_r->save();
+
        }
      }
     }
 
-
-
-// class PostImport implements ToModel, WithHeadingRow
-// {
-//     public function model(array $row)
-//     {
-//         // dd($row['video_link']);
-//         if($row['video_link'] != null){
-//             try{
- 
-        
-//             $cover = file_get_contents( $row['video_link'] );
-
-//             $name_cover = substr($cover, strrpos($cover, '/upload/cover/') + 1);
-        
-//         $new = rand(0,1000000000).'.mp4';
-//         // dd($new);
-
-//         Storage::put($new, $cover);
-
-//         }catch (\Exception $e) {
-//             // dd('ff');
-//         $new = 'its null';
-//         }
-//         }else{
-//             $new = 'its null';
-//         }
-       
-//         if($row['image_link'] != null){
-//             try{
- 
-        
-//                 $cover = file_get_contents( $row['image_link'] );
-            
-//                 $name_cover = substr($cover, strrpos($cover, '/upload/') + 1);
-//                 // dd($name_cover);
-              
-//             $image = '/uploads/'.rand(0,1000000000).'.jpg';
-            
-//             Storage::put($image, $cover);
-            
-//             }catch (\Exception $e) {
-//              $image = 'its null';
-//             } 
-//         }else{
-//             $image = 'its null';
-//         }
-//         if($row['fb_page_logo']!= null){
-//             try{
- 
-        
-//                 $cover = file_get_contents( $row['fb_page_logo'] );
-            
-//                 $name_cover = substr($cover, strrpos($cover, '/upload/cover/') + 1);
-              
-//             $fb_page_logo = rand(0,1000000000).'.jpg';
-            
-//             Storage::put($fb_page_logo, $cover);
-            
-//             }catch (\Exception $e) {
-//              $fb_page_logo = 'its null';
-//             }    
-//         }else{
-//             $fb_page_logo = 'its null';
-     
-//         }
-
-        
-//         $post =  new Post([
-//             'post_id'     => $row['post_id'],
-//             'ad_format'    => $row['ad_format'], 
-//             'landanig_page' =>$row['landing_page_link'],
-        
-//             'post_create'=>$row['post_link'],
-//             'post_create'=>$row['post_created'],
-//             'last_seen'=>$row['last_seen'],
-//             'interested'=>$row['intersted'],
-//             'gender'=>$row['gender'],
-//             'age'=>$row['age'],
-//             'country'=>$row['country_account'],
-//             // 'image'=>$row['country_ad'],
-//             'lang'=>$row['language_ad'],
-//             'page_link'=>$row['page_link'],
-//             'button'=>$row['button'],
-//             'share'=>$row['shares_number'],
-
-//             'comment'=>$row['comment_number'],
-//             'like'=>$row['likes_number'],
-//             'page_name'=>$row['facebook_page_name'],
-//             'Ad_Description'=>$row['ad_description'],
-//             'title'=>$row['ad_title'],
-
-//         ]);
-//         return new Resoure([
-//             'post_id'=>$post->id,
-//             'video'=>$new,
-//             'image'=>$image,
-//             'page_logo'=>$fb_page_logo,
-//         ]);
-
-//     }
-// }
-
-
-
-// // image upload 
-// // try{
- 
-        
-// //     $cover = file_get_contents( $url );
-
-// //     $name_cover = substr($cover, strrpos($cover, '/upload/cover/') + 1);
-  
-// // $new = rand(0,1000000000).'.mp4';
-
-// // Storage::put($new, $cover);
-
-// // }catch (\Exception $e) {
-// //  $new = 'its null';
-// // }

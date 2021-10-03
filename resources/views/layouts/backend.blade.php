@@ -3,14 +3,14 @@
 
     <head>
         <meta charset="utf-8" />
-        <title>Metrica - Admin & Dashboard Template</title>
+        <title>@yield('title')</title>
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
         <meta content="" name="author" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
         <!-- App favicon -->
-        <link rel="shortcut icon" href="{{asset('assets/images/favicon.ico')}}">
+        <link rel="shortcut icon" href="{{asset('uploads/'.general('logo'))}}">
 
         <!-- jvectormap -->
         <link href="{{asset('plugins/jvectormap/jquery-jvectormap-2.0.2.css')}}" rel="stylesheet">
@@ -21,8 +21,22 @@
         <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet" type="text/css" />
         <link href="{{asset('assets/css/metisMenu.min.css')}}" rel="stylesheet" type="text/css" />
         <link rel="stylesheet" href="{{ asset('plugins/noty/noty.css') }}">
+        <link href="{{ asset('plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
+        <!-- Responsive datatable examples -->
+        <link href="{{ asset('plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" /> 
         <script src="{{ asset('plugins/noty/noty.min.js') }}"></script>
         <link href="{{asset('assets/css/app.min.css')}}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('plugins/daterangepicker/daterangepicker.css') }}" rel="stylesheet" />
+        <link href="{{ asset('plugins/select2/select2.min.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.css') }}" rel="stylesheet" type="text/css" />
+        <link href="{{ asset('plugins/timepicker/bootstrap-material-datetimepicker.css') }}" rel="stylesheet">
+        <link href="{{ asset('plugins/bootstrap-touchspin/css/jquery.bootstrap-touchspin.min.css') }}" rel="stylesheet" />
+        <link href="{{asset('assets/css/bootstrap.min.css')}}" rel="stylesheet"  />
+        <link href="{{asset('assets/css/jquery-ui.min.css')}}" rel="stylesheet">
+        <link href="{{asset('assets/css/icons.min.css')}}" rel="stylesheet"  />
+        <link href="{{asset('assets/css/metisMenu.min.css')}}" rel="stylesheet"  />
+        <link href="{{asset('assets/css/app.css')}}" rel="stylesheet"  />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.css">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/switchery/0.8.2/switchery.min.js"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
@@ -61,6 +75,9 @@
         
         <script src="{{asset('plugins/jvectormap/jquery-jvectormap-2.0.2.min.js')}}"></script>
         <script src="{{asset('plugins/jvectormap/jquery-jvectormap-us-aea-en.js')}}"></script>
+
+        <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
         
         {{-- <script src="{{asset('assets/pages/jquery.analytics_dashboard.init.js')}}"></script> --}}
         <script src="{{asset('plugins/tinymce/tinymce.min.js')}}"></script>
@@ -70,6 +87,9 @@
         <!-- App js -->
         <script src="{{asset('assets/js/app.js')}}"></script>
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+        <script>
+            $('.table-centered').DataTable();
+        </script>
     {{--  <script>
         $('.delete-confirm').on('click', function (event) {
             event.preventDefault();
@@ -89,15 +109,33 @@
     @yield('script')
     <script>
         $(document).ready(function () {
-        $(".image").change(function () {
+
+        $(".imageitem").change(function () {
 
             var img_name=$(this).attr('name');
+
 if (this.files && this.files[0]) {
     var reader = new FileReader();
    reader.onload = function (e) {
+
         $('.image-preview[data-preview='+img_name+']').attr('src', e.target.result); }
     reader.readAsDataURL(this.files[0]);
  }
+});
+});
+    </script>
+    <script>
+        $(document).ready(function () {
+
+            $(".image").change(function () {
+       
+       var img_name=$(this).attr('name');
+if (this.files && this.files[0]) {
+var reader = new FileReader();
+reader.onload = function (e) {
+   $('.image-preview[data-preview='+img_name+']').attr('src', e.target.result); }
+reader.readAsDataURL(this.files[0]);
+}
 });
 });
     </script>

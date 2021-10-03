@@ -6,7 +6,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>document</title>
+    <title>{{ general('title') }}</title>
+    <link rel="shortcut icon" href="{{asset('uploads/'.general('logo'))}}">
 
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
 
@@ -41,12 +42,10 @@
 <body>
 
 
-
     <nav class="navbar navbar-expand-lg navbar-light ">
         <div class="container">
-            <a class="navbar-brand" href="#">Logo</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">{{ general('title') }}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
@@ -70,10 +69,8 @@
 
 
                 <li class="nav-item dropdown d-flex align-items-center">
-                    <img src="images/user.png" class=""
-                        style="width: 30px;height: 30px; background-color: #d8d8d8; border-radius: 50%;;">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <img src="images/user.png" class="" style="width: 30px;height: 30px; background-color: #d8d8d8; border-radius: 50%;;">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         mohamed ali
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -86,44 +83,33 @@
     </nav>
 
     <div class="container">
-
-
-
-        <form class="form-inline search my-2 my-lg-0">
-            <select class="select rounded-0 s-select">
-                <option data-display="Ads info">Ads info</option>
-                <option value="ads text">Ads text</option>
-                <option value="ads text">Advertiser</option>
-                <option value="ads text">Landing page</option>
-                <option value="ads text">Fan page</option>
-
+        <form class="form-inline search my-2 my-lg-0"> 
+            @csrf
+            <select id="ads_info" name="ads_info" class="select rounded-0 s-select">
+                    <option data-display="Ads info">Ads info</option>
+                    <option value="title">Ads title</option>
+                    <option value="page_name">Advertiser</option>
+                    <option value="landanig_page">Landing page</option>    
             </select>
-            <input  class="form-control mr-sm-2 rounded-0 search-input" type="search" placeholder="Search"
-                aria-label="Search">
-                @if (Session::get('test') != null)
-                    
-                
-                <input type="text" value="{{ route('fillter_serach') }}" id="route_url" >
-                @endif
-            <button class="btn btn-outline-secondary my-2 my-sm-0 rounded-0 search-btn" type="submit">Search</button>
+            <input class="form-control mr-sm-2 rounded-0 search-input" name="search" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-info my-2 my-sm-0 rounded-0 search-btn" type="button">Search</button>
         </form>
 
-
     </div>
-    
-    <div class="panel rounded">
-        <div class="container">
+    <div class="container">
+        <div class="panel rounded table-responsive-sm">
+
             <div class="row">
-              
+                <form class="">
+
                     <div class="block-1 ">
                         <h3 class="title">basic:</h3>
 
 
                         <select class="select">
                             <option data-display="Networks">Networks</option>
-                            <option value="Facebook">Facebook</option>
+                            <option value="Facebook" selected>Facebook</option>
                         </select>
-
                         <select class="country" name="country">
                             <option data-display="country">country</option>
 
@@ -223,7 +209,7 @@
                         </div>
 
 
-
+                   
                         <select id="post_type">
                             <option disabled   data-display="Post type">Post type</option>
                             <option value="all" selected>ALL</option>
@@ -231,26 +217,30 @@
                             <option value="image">Image</option>
 
                         </select>
+                        @php
+                               $cat = App\Post::get();
+        $array = [];
+        foreach($cat as $post){
+            $cats = explode(',',$post->category);
+            foreach($cats as $pot){
+                array_push($array,$pot);
+            }
+        }
+        $category = collect($array)->unique();
+                        @endphp
+                        <select id="category">
+                            <option data-display="Category">Category</option>
+                            <option value="All">All</option>
+                      @foreach ($category as $item)
+                      <option value="{{ $item }}">{{ $item }}</option>
 
-                        <select>
-                            <option data-display="Category">All</option>
-                            <option value="Home & Garden">Home & Garden</option>
-                            <option value="Fashion">Fashion</option>
-                            <option value="Jewelry">Jewelry</option>
-                            <option value="Shoes & bags">Shoes & bags</option>
-                            <option value="Education">Education</option>
-                            <option value="Business, Finance & Economics">Business, Finance & Economics</option>
-                            <option value="Phones & Electronics">Phones & Electronics</option>
-                            <option value="Vehicles">Vehicles</option>
-                            <option value="Events">Events</option>
-                            <option value="Fitness,Health & Beauty">Fitness,Health & Beauty</option>
+                      @endforeach
 
                         </select>
 
 
 
                     </div>
-
 
 
 
@@ -302,6 +292,15 @@
 
                            
 
+                      
+
+
+                            {{-- <div class="text-center border-top pt-2">
+                                <input class="btn btn-primary ok" value="ok" type="button">
+                                <button class="btn btn-primary ok">ok</button>
+                                <button class="btn btn-light cancel">cancel</button>
+                            </div> --}}
+
                         </div>
 
 
@@ -317,7 +316,8 @@
                                 <span>101~1000</span>
                                 <span>>1000</span>
                         
-
+                                <input type="number" class="min form-control d-inline-block" style="width: 80px;" placeholder="min"> ~
+                                <input type="number" class="max form-control d-inline-block" style="width: 80px;" placeholder="max">
 
                             </div>
 
@@ -326,7 +326,8 @@
                                 <span>1~100</span>
                                 <span>101~1000</span>
                                 <span>>1000</span>
-                           
+                                <input type="number" class="min form-control d-inline-block ok" style="width: 80px;" placeholder="min"> ~
+                                <input type="number" class="max form-control d-inline-block" style="width: 80px;" placeholder="max">
 
                             </div>
 
@@ -335,7 +336,8 @@
                                 <span>1~100</span>
                                 <span>101~1000</span>
                                 <span>>1000</span>
-                           
+                                <input type="number" class="min form-control d-inline-block ok" style="width: 80px;" placeholder="min"> ~
+                                <input type="number" class="max form-control d-inline-block" style="width: 80px;" placeholder="max">
                             </div>
 
 
@@ -345,7 +347,6 @@
                             </div>
 
                         </div>
-
 
 
 
@@ -482,7 +483,7 @@
                         </ul>
                     </div>
 
-                    <div class="block-1 ">
+                    <div class="block-1 pb-0 mb-0 ">
                         <span class="mr-2">Sort By:</span>
                         <select class="select" id="sort_by">
                             <option value="last_seen" data-display="Last Seen">Last Seen</option>
@@ -494,30 +495,35 @@
 
                         </select>
                     </div>
-
+                    <button type="button" class="btn btn-outline-info clear">Clear</button>
+                                </form>
             </div>
         </div>
     </div>
     <div class="result">
-        <div class="container">
-            <div class="row tests"  id="post-data">
-    
+        <div class="container" >
+            <div class="row tests boxList  "id="post-data">
+ 
 
 
   
             @include('data')
+            
+  
+        </div>
+    
+    </div>
+    <div id="disblyarea" style="display: none" >
+        <div class="container">
+            <p style="text-align: center;font-size: 30px">No results available.</p>
+        </div>
         </div>
     </div>
-    </div>
-     
+  
 
- 
-
+    
 
 
-
-    <!-- Modal -->
-   
 
 
 
@@ -539,75 +545,130 @@
     </div>
 
 
-   
-    <script>
-    
-var page = 1;
-
-$(window).scroll(function() {
-
-if($(window).scrollTop() + $(window).height()+0.5 >= $(document).height()) {
-  
-    page++;
-
-    loadMoreData(page);
-
-}
-
-});
-
-function loadMoreData(page){
-
-$.ajax(
-
-  {
-
-      url: '?page=' + page,
-
-      type: "get",
-
-      beforeSend: function()
-
-      {
-
-          $('.ajax-load').show();
-
-      }
-
-  })
-
-  .done(function(data)
-
-  {
-
-      if(data.html == " "){
-
-          $('.ajax-load').html("No more records found");
-
-          return;
-
-      }
-
-      $('.ajax-load').hide();
-
-
-      $("#post-data").append(data.html);
-
-  })
-
-  .fail(function(jqXHR, ajaxOptions, thrownError)
-
-  {
-    alert('error')
-  });
-};
-
-
-
-</script>
-
+    <script type="text/javascript">
     
 
+$('.clear').click(function() {
+        $('.current').each(function() {
+            let defVal = $(this).text();
+            $('.current').text("Select ...");
+            loadMoreData();
+        })
+    
+    })
+        // var page = 1;
+        $(window).scroll(function() {
+            if($(window).scrollTop() + $(window).height()+1 >= $(document).height()) {
+                                // page++;
+                loadMoreData();
+            }
+        });
+        var val3 = {};
+
+    function getInput(min, max, src) {
+
+        if (min !== "" || max !== "") {
+
+            $('.Engagement .current').text(parseInt(min) + "~" + parseInt(max))
+            val3.one = min
+            val3.two = max
+            val3.three = $(src).parent().attr('id');
+
+
+
+        }
+    }
+
+
+    $('.OK').click(function() {
+        getInput($('#like .min').val(), $('#like .max').val(), $('#like .max'))
+        getInput($('#comment .min').val(), $('#comment .max').val(), $('#comment .max'))
+        getInput($('#share .min').val(), $('#share .max').val(), $('#share .max'))
+
+    })
+        var val2 = {};
+        function getTypeId(src1) {
+            $(src1).click(function() {
+                val2.one = $(this).parent().attr('id');
+                val2.two = $(this).text()
+            })
+        }
+
+        var val = {};
+
+        function getdataIDPro(src1) {
+            $(src1).click(function() {
+                val.one = $(this).attr("id");
+
+            })
+        }
+        $('.clear').click(function() {
+        $('.current').each(function() {
+            let defVal = $(this).text();
+            $('.current').text("Select ...");
+            location.reload();
+        })
+
+    })
+
+    getdataIDPro('.langs span');
+    getTypeId('.Engagements span');
+        var offset = 1 ;
+        var page = 3 ;
+        function loadMoreData(){
+            // let post_type = $('#post_type :selected').val();
+            let lang = val.one;
+            let country = $('.country .current').text();
+            let obj = $('.objective .current').text();
+            let enng = val2.one + " " + val2.two;
+            let post_type = $('#post_type :selected').val();
+            let sort_by = $('#sort_by :selected').val();
+            var radioValue = $(".btn-default.active").val();
+            var daterange = $("#daterange").val();
+            let min_max = val3.three + " " + val3.one + "~" + val3.two;
+            let category = $('#category :selected').val();
+
+          $.ajax(
+                {
+                    url: '?page='+page+'&offset='+offset,
+                    type: "get",
+                    data: {  
+                        'enng': enng, 
+                        'country': country, 
+                        'lang': lang, 
+                        "obj": obj, 
+                        'post_type': post_type, 
+                        "sort_by": sort_by, 
+                        'radioValue': radioValue, 
+                        'min_max': min_max,
+                        'category': category,
+                        "daterange": daterange 
+                    },
+
+                    beforeSend: function()
+                    {
+                        $('.ajax-load').show();
+                    }
+                })
+                .done(function(data)
+                {
+                    if(data.count == 0){
+                        $('#disblyarea').css("display", "block");
+                    }
+                    $('.ajax-load').hide();
+                  
+                    $("#post-data").append(data.html);
+                })
+                .fail(function(jqXHR, ajaxOptions, thrownError)
+                {
+                      alert('server not responding...');
+                });
+                offset++;
+        }
+    </script>
+      {{-- <script src="https://code.jquery.com/jquery-1.10.2.js"></script>     --}}
+
+    
     <script src="{{ asset('new_style/js/main.js') }}"></script>
   
 

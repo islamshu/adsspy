@@ -28,7 +28,7 @@ public function index(Request $request)
 {
 $roles = Role::orderBy('_id','DESC')->paginate(5);
 
-return view('roles.index',compact('roles'))
+return view('dashboard.roles.index',compact('roles'))
 ->with('i', ($request->input('page', 1) - 1) * 5);
 }
 /**
@@ -39,7 +39,7 @@ return view('roles.index',compact('roles'))
 public function create()
 {
 $permission = Permission::get();
-return view('roles.create',compact('permission'));
+return view('dashboard.roles.create',compact('permission'));
 }
 /**
 * Store a newly created resource in storage.
@@ -79,7 +79,7 @@ public function show($id)
 $role = Role::find($id);
 $rolePermissions  = Role::find($id)->permission_ids;
 
-return view('roles.show',compact('role','rolePermissions'));
+return view('dashboard.roles.show',compact('role','rolePermissions'));
 }
 /**
 * Show the form for editing the specified resource.
@@ -93,7 +93,7 @@ $role = Role::find($id) ;
 // dd($role);
 $permission = Permission::get();
 $rolePermissions  = Role::find($id)->permission_ids;
-return view('roles.edit',compact('role','permission','rolePermissions'));
+return view('dashboard.roles.edit',compact('role','permission','rolePermissions'));
 }
 /**
 * Update the specified resource in storage.

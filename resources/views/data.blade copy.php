@@ -164,138 +164,138 @@ aria-labelledby="staticBackdropLabel" aria-hidden="true">
                         <script>
                             (function($) {
 
-"use strict";
+                                        "use strict";
 
-$('#id_0').datetimepicker({
-    allowInputToggle: true,
-    showClose: true,
-    showClear: true,
-    showTodayButton: true,
-    format: "MM/DD/YYYY hh:mm:ss A",
-    icons: {
-        time: 'fa fa-clock-o',
+                                        $('#id_0').datetimepicker({
+                                            allowInputToggle: true,
+                                            showClose: true,
+                                            showClear: true,
+                                            showTodayButton: true,
+                                            format: "MM/DD/YYYY hh:mm:ss A",
+                                            icons: {
+                                                time: 'fa fa-clock-o',
 
-        date: 'fa fa-calendar-o',
+                                                date: 'fa fa-calendar-o',
 
-        up: 'fa fa-chevron-up',
+                                                up: 'fa fa-chevron-up',
 
-        down: 'fa fa-chevron-down',
+                                                down: 'fa fa-chevron-down',
 
-        previous: 'fa fa-chevron-left',
+                                                previous: 'fa fa-chevron-left',
 
-        next: 'fa fa-chevron-right',
+                                                next: 'fa fa-chevron-right',
 
-        today: 'fa fa-chevron-up',
+                                                today: 'fa fa-chevron-up',
 
-        clear: 'fa fa-trash',
+                                                clear: 'fa fa-trash',
 
-        close: 'fa fa-close'
-    },
+                                                close: 'fa fa-close'
+                                            },
 
-});
-
-
-
-var figure = $(".video").hover(hoverVideo, hideVideo);
-
-function hoverVideo(e) { $('video', this).get(0).play(); }
-
-function hideVideo(e) { $('video', this).get(0).pause(); }
+                                        });
 
 
 
-var ctx = document.getElementById('myChart{{ $item->id }}').getContext('2d');
+                                        var figure = $(".video").hover(hoverVideo, hideVideo);
 
-var like_array ={{ json_encode($item->array_like_post() )}};
-var comment_array ={{ json_encode($item->array_like_comment() )}};
-var share_array ={{ json_encode($item->array_like_share() )}};
+                                        function hoverVideo(e) { $('video', this).get(0).play(); }
 
-
-
-var myChart = new Chart(ctx, {
-    type: 'line',
-    data: {
-		labels:{!! $item->dates() !!} ,
-        datasets: [{
-                label: 'likes',
-                data: like_array ,
-                backgroundColor: [
-                    'rgba(255, 159, 64, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255, 99, 132, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)',
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)'
-                ],
-                borderWidth: 1,
-                fontSize: 12,
-                fill: true
-            },
-            {
-
-                label: 'comments',
-                data: comment_array,
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)'
-
-                ],
-                borderColor: [
-
-                    'rgba(255, 206, 86, 1)'
-
-                ],
-                borderWidth: 1,
-                fill: true
-
-            }
-
-            ,
-            {
-
-                label: 'shares',
-                data: share_array,
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)'
-
-                ],
-                borderColor: [
-
-                    'rgba(153, 102, 255, 1)'
-                ],
-                borderWidth: 1,
-                fill: true
-
-            }
+                                        function hideVideo(e) { $('video', this).get(0).pause(); }
 
 
 
-        ]
+                                        var ctx = document.getElementById('myChart{{ $item->id }}').getContext('2d');
 
-
-    },
-    options: {
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-
-
-    }
-
-
-});
+                                        var like_array ={{ json_encode($item->array_like_post() )}};
+                                        var comment_array ={{ json_encode($item->array_like_comment() )}};
+                                        var share_array ={{ json_encode($item->array_like_share() )}};
 
 
 
+                                        var myChart = new Chart(ctx, {
+                                            type: 'line',
+                                            data: {
+                                                labels:{!! $item->dates() !!} ,
+                                                datasets: [{
+                                                        label: 'likes',
+                                                        data: like_array ,
+                                                        backgroundColor: [
+                                                            'rgba(255, 159, 64, 0.2)'
+                                                        ],
+                                                        borderColor: [
+                                                            'rgba(255, 99, 132, 1)',
+                                                            'rgba(54, 162, 235, 1)',
+                                                            'rgba(255, 206, 86, 1)',
+                                                            'rgba(75, 192, 192, 1)',
+                                                            'rgba(153, 102, 255, 1)',
+                                                            'rgba(255, 159, 64, 1)'
+                                                        ],
+                                                        borderWidth: 1,
+                                                        fontSize: 12,
+                                                        fill: true
+                                                    },
+                                                    {
 
-$('select').niceSelect();
+                                                        label: 'comments',
+                                                        data: comment_array,
+                                                        backgroundColor: [
+                                                            'rgba(54, 162, 235, 0.2)'
+
+                                                        ],
+                                                        borderColor: [
+
+                                                            'rgba(255, 206, 86, 1)'
+
+                                                        ],
+                                                        borderWidth: 1,
+                                                        fill: true
+
+                                                    }
+
+                                                    ,
+                                                    {
+
+                                                        label: 'shares',
+                                                        data: share_array,
+                                                        backgroundColor: [
+                                                            'rgba(75, 192, 192, 0.2)'
+
+                                                        ],
+                                                        borderColor: [
+
+                                                            'rgba(153, 102, 255, 1)'
+                                                        ],
+                                                        borderWidth: 1,
+                                                        fill: true
+
+                                                    }
 
 
-})(jQuery);
+
+                                                ]
+
+
+                                            },
+                                            options: {
+                                                scales: {
+                                                    y: {
+                                                        beginAtZero: true
+                                                    }
+                                                }
+
+
+                                            }
+
+
+                                        });
+
+
+
+
+                                        $('select').niceSelect();
+
+
+                                        })(jQuery);
                         </script>
 
 

@@ -34,7 +34,7 @@
                             </div>
                          </div>
                          <div class="form-group">
-                            <img src="{{asset('uploads/'.$first->image)}}"  style="width: 100px" class="img-thumbnail image-preview" data-preview="image" alt="">
+                            <img src="{{asset('uploads/'.@$first->image)}}"  style="width: 100px" class="img-thumbnail image-preview" data-preview="image" alt="">
                         </div>
                      
                        
@@ -42,15 +42,15 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Title</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="title" value="{{$first->title}}"  required >
+                                    <input class="form-control" type="text" name="title" value="{{@$first->title}}"  required >
                                 </div>
                             </div>                    
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-12">
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Description</label>
-                                <div class="col-sm-10">
-                                    <textarea id="elm1" name="dec">{{$first->dec}}</textarea>
+                                <div class="col-sm-12">
+                                    <textarea id="elm1" name="dec">{{@$first->dec}}</textarea>
                                 </div>
                             </div>                    
                         </div>
@@ -58,7 +58,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Text Button</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="text_button" value="{{$first->text_button}}"   >
+                                    <input class="form-control" type="text" name="text_button" value="{{@$first->text_button}}"   >
                                 </div>
                             </div>                    
                         </div>
@@ -66,7 +66,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Link Button</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="button" value="{{$first->button}}" >
+                                    <input class="form-control" type="text" name="button" value="{{@$first->button}}" >
                                 </div>
                             </div>                    
                         </div>

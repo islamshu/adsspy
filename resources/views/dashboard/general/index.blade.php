@@ -34,7 +34,7 @@
                             </div>
                          </div>
                          <div class="form-group">
-                            <img src="{{asset('uploads/'.$general->logo)}}"  style="width: 100px" class="img-thumbnail image-preview" data-preview="logo" alt="">
+                            <img src="{{asset('uploads/'.@@$general->logo)}}"  style="width: 100px" class="img-thumbnail image-preview" data-preview="logo" alt="">
                         </div>
                          <div class="col-lg-8">
                             <div class="form-group row">
@@ -47,13 +47,13 @@
                                                
                         </div>
                         <div class="form-group">
-                            <img src="{{asset('uploads/'.$general->icon)}}"  style="width: 100px" class="img-thumbnail image-preview" data-preview="icon" alt="">
+                            <img src="{{asset('uploads/'.@$general->icon)}}"  style="width: 100px" class="img-thumbnail image-preview" data-preview="icon" alt="">
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Title</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="title" value="{{$general->title}}"  required >
+                                    <input class="form-control" type="text" name="title" value="{{@$general->title}}"  required >
                                 </div>
                             </div>                    
                         </div>
@@ -61,7 +61,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea id="elm1" name="dec">{{$general->dec}}</textarea>
+                                    <textarea id="elm1" name="dec">{{@$general->dec}}</textarea>
                                 </div>
                             </div>                    
                         </div>

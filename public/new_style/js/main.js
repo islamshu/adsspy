@@ -32,6 +32,7 @@
 
 
 
+
     var figure = $(".video").hover(hoverVideo, hideVideo);
 
     function hoverVideo(e) { $('video', this).get(0).play(); }
@@ -88,6 +89,43 @@
     addTarget('.objective .current', '.objectives .row1 span');
 
 
+    var val3 = {};
+
+    function getInput(min, max, src) {
+
+        if (min !== "" || max !== "") {
+
+            $('.Engagement .current').text(parseInt(min) + "~" + parseInt(max))
+            val3.one = min
+            val3.two = max
+            val3.three = $(src).parent().attr('id');
+
+            get_posts();
+
+
+        }
+    }
+
+
+    $('.OK').click(function() {
+        getInput($('#like .min').val(), $('#like .max').val(), $('#like .max'));
+        getInput($('#comment .min').val(), $('#comment .max').val(), $('#comment .max'));
+        getInput($('#share .min').val(), $('#share .max').val(), $('#share .max'));
+
+    })
+    $('.cancel').click(function(e) {
+        e.preventDefault()
+        $(this).parent().parent().toggleClass('toggle')
+    })
+
+    $('.OK').click(function(e) {
+        e.preventDefault()
+
+        $(this).parent().parent().toggleClass('toggle')
+
+
+    })
+
 
     $(function() {
         $('input[name="daterange"]').daterangepicker({
@@ -107,6 +145,13 @@
         get_posts();
 
     });
+    $('#category').on('change', function() {
+        // alert('ff');
+        get_posts();
+
+    });
+
+
     $('#daterange').on('change', function() {
         // alert('ssq');
         get_posts();
@@ -153,6 +198,8 @@
     getdataIDPro('.langs span')
 
     function get_posts() {
+        offset = -1;
+        page = 3;
         let lang = val.one;
         let country = $('.country .current').text();
         let obj = $('.objective .current').text();
@@ -161,21 +208,35 @@
         let sort_by = $('#sort_by :selected').val();
         var radioValue = $(".btn-default.active").val()
         var daterange = $("#daterange").val();
+        let category = $('#category :selected').val();
+        let min_max = val3.three + " " + val3.one + "~" + val3.two;
+        $('html, body').animate({
+            scrollTop: $("#post-data").offset().top
+        }, 1500);
         $.ajax({
-            url: '/index',
+            url: '?page=' + page + '&offset=' + offset,
             type: 'get',
-            dataType: 'html',
-            data: { 'is_filtter': 1, 'enng': enng, 'country': country, 'lang': lang, "obj": obj, 'post_type': post_type, "sort_by": sort_by, 'radioValue': radioValue, "daterange": daterange },
+            data: {
+                'enng': enng,
+                'country': country,
+                'lang': lang,
+                "obj": obj,
+                'post_type': post_type,
+                "sort_by": sort_by,
+                'radioValue': radioValue,
+                'category': category,
+                'min_max': min_max,
+                "daterange": daterange
+            },
             success: function(data) {
+                // $("#post-data").empty();
 
-
-
-                $("#post-data").replaceWith(data);
-
+                $("#post-data").html(data.html);
 
 
             }
         });
+        offset++;
     }
 
     var val2 = {};

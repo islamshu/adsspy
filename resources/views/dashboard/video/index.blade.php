@@ -33,7 +33,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Title</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="title" value="{{$video->title}}"   required >
+                                    <input class="form-control" type="text" name="title" value="{{@$video->title}}"   required >
                                 </div>
                             </div>                    
                         </div>
@@ -41,7 +41,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Description</label>
                                 <div class="col-sm-10">
-                                    <textarea id="elm1" name="dec">{{$video->dec}}</textarea>
+                                    <textarea id="elm1" name="dec">{{@$video->dec}}</textarea>
                                 </div>
                             </div>                    
                         </div>
@@ -50,7 +50,7 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Video link</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" value="{{$video->video_link}}" name="video_link"  >
+                                    <input class="form-control" type="text" value="{{@$video->video_link}}" name="video_link"  >
                                 </div>
                             </div>                    
                         </div>

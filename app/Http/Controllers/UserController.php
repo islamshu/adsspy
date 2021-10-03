@@ -19,8 +19,8 @@ class UserController extends Controller
 */
 public function index(Request $request)
 {
-$users = User::orderBy('id','DESC')->paginate(5);
-return view('users.index',compact('users'))
+$users = User::orderBy('id','DESC')->get();
+return view('dashboard.users.index',compact('users'))
 ->with('i', ($request->input('page', 1) - 1) * 5);
 }
 /**
@@ -34,7 +34,7 @@ public function create()
     // $ss = CityListFacade::getList('ar');
 
 $roles = Role::pluck('name','name')->all();
-return view('users.create',compact('roles','countrys'));
+return view('dashboard.users.create',compact('roles','countrys'));
 }
 /**
 * Store a newly created resource in storage.
@@ -69,7 +69,6 @@ $this->validate($request, [
 'email' => 'required|email|unique:users,email',
 'password' => 'required|same:confirm-password',
 'roles' => 'required',
-
 ]);
 $input = $request->all();
 $input['password'] = Hash::make($input['password']);
@@ -102,7 +101,7 @@ public function edit($id)
 $user = User::find($id);
 $roles = Role::pluck('name','name')->all();
 $userRole = $user->roles->pluck('name','name')->all();
-return view('users.edit',compact('user','roles','userRole','countrys'));
+return view('dashboard.users.edit',compact('user','roles','userRole','countrys'));
 }
 /**
 * Update the specified resource in storage.
@@ -113,24 +112,30 @@ return view('users.edit',compact('user','roles','userRole','countrys'));
 */
 public function update(Request $request, $id)
 {
-$this->validate($request, [
-'name' => 'required',
-// 'email' => 'required|email|unique:users,email,'.$id,
-'password' => 'same:confirm-password',
-'roles' => 'required',
-// 'country'=>'required'
+    $user = User::find($id);
+$request->validate([
+    'name' => 'required',
+    // 'email'=>'required|email|unique:users,email,'.$user->id,
+    'email'=> 'required|email|unique:users,' . $id,
+
+    'roles' => 'required',
+    'country'=>'required'
 ]);
-$input = $request->all();
-if(!empty($input['password'])){
-$input['password'] = Hash::make($input['password']);
+$request_all = $request->except(['password','roles']);
+if($request->password != null){
+$request_all['password'] = Hash::make($request->password);
 }
-// else{
-// $input = array_except($input,array('password'));
-// }
-$user = User::find($id);
-$user->update($input);
-DB::table('model_has_roles')->where('model_id',$id)->delete();
-$user->assignRole($request->input('roles'));
+$request_all['role_ids']=[$request->roles];
+
+
+
+
+$user->save();
+// dd($user->roles);
+// dd($user->role_ids);
+$user->roles()->detach();
+
+$user->assignRole($request->roles);
 return redirect()->route('users.index')
 ->with('success','User updated successfully');
 }

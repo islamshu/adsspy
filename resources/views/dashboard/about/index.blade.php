@@ -34,13 +34,13 @@
                             </div>
                          </div>
                          <div class="form-group">
-                            <img src="{{asset('uploads/'.$about->image)}}"  style="width: 100px" class="img-thumbnail image-preview" data-preview="image" alt="">
+                            <img src="{{asset('uploads/'.@$about->image)}}"  style="width: 100px" class="img-thumbnail image-preview" data-preview="image" alt="">
                         </div>
                         <div class="col-lg-8">
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Section Title</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="title_section" value="{{$about->title_section}}"  required >
+                                    <input class="form-control" type="text" name="title_section" value="{{@$about->title_section}}"  required >
                                 </div>
                             </div>                    
                         </div>
@@ -49,15 +49,15 @@
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Title</label>
                                 <div class="col-sm-10">
-                                    <input class="form-control" type="text" name="title" value="{{$about->title}}"  required >
+                                    <input class="form-control" type="text" name="title" value="{{@$about->title}}"  required >
                                 </div>
                             </div>                    
                         </div>
-                        <div class="col-lg-8">
+                        <div class="col-lg-12">
                             <div class="form-group row">
                                 <label for="example-text-input" class="col-sm-2 col-form-label text-right">Description</label>
-                                <div class="col-sm-10">
-                                    <textarea id="elm1" name="dec">{{$about->dec}}</textarea>
+                                <div class="col-sm-12">
+                                    <textarea id="elm1" name="dec">{{@$about->dec}}</textarea>
                                 </div>
                             </div>                    
                         </div>

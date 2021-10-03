@@ -8,7 +8,7 @@
             <div class="page-title-box">
                 <div class="float-right">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="{{ route('dashboard.index')}}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="">Home</a></li>
                         <li class="breadcrumb-item"><a href="{{ route('posts.index')}}">Posts</a></li>
                         <li class="breadcrumb-item active">Create post</li>
                     </ol>
