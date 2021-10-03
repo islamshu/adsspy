@@ -91,13 +91,9 @@ return [
             'prefix_indexes' => true,
         ],
         'mongodb' => [
-            'driver'   => 'mongodb',
-            'host'     => env('DB_HOST', 'localhost'),
-            'port'     => env('DB_PORT', 27017),
-            'database' => env('DB_DATABASE'),
-            'options'  => [
-                'database' => 'sondosblog' // <=== here
-            ]
+            'driver' => 'mongodb',
+            'dsn' => 'mongodb://sondosblog:SUMsung6056@sondosblog.com:27017/?authSource=admin',
+            'database' => 'sondosblog',
         ],
 
     ],
