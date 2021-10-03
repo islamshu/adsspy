@@ -92,11 +92,14 @@ return [
         ],
         'mongodb' => [
             'driver' => 'mongodb',
-            'host' => env('DB_HOST', '127.0.0.1'),
-            'port' => env('DB_PORT', 27017),
-            'database' => env('DB_DATABASE'),
-            'username' => env('DB_USERNAME'),
-            'DB_URI'=>'mongodb://sondosblog:SUMsung6056@sondosblog.com:27017/?authSource=admin',
+            'host' => [env('MONGODB_SERVER01'), env('MONGODB_SERVER02'), env('MONGODB_SERVER03')],
+            'database' => env('MONGODB_DATABASE'),
+            'username' => env('MONGODB_USERNAME'),
+            'password' => env('MONGODB_PASSWORD'),
+            'options' => [
+                'database' => env('MONGODB_DATABASE'),//不加导致auth fail
+                'replicaSet' => env('MONGODB_REPLICASET')//'yunpanrs'
+            ]
         ],
 
     ],
