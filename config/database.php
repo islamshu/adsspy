@@ -94,12 +94,7 @@ return [
             'driver' => 'mongodb',
             'host' => [env('MONGODB_SERVER01'), env('MONGODB_SERVER02'), env('MONGODB_SERVER03')],
             'database' => env('MONGODB_DATABASE'),
-            'username' => env('MONGODB_USERNAME'),
-            'password' => env('MONGODB_PASSWORD'),
-            'options' => [
-                'database' => env('MONGODB_DATABASE'),//不加导致auth fail
-                'replicaSet' => env('MONGODB_REPLICASET')//'yunpanrs'
-            ]
+            'db_url' => env('DB_URI'),
         ],
 
     ],
